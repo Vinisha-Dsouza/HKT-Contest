@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HKT National Contest 2025</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    /* Navbar Styling */
+    .navbar {
+      background-color: #b8d4ff !important; /* Bright blue */
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .navbar-dark .navbar-nav .nav-link {
+      color: rgba(24, 2, 2, 0.9);
+    }
+    
+    .navbar-dark .navbar-nav .nav-link:hover {
+      color: white;
+    }
+
+    /* Hero Section Styling */
+    .hero-section {
+      background: linear-gradient(45deg, #007bff, #00c6ff);
+      color: white;
+      padding: 150px 0 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('https://web.hktechnical.com/hktpgims/assets/img/hero-bg.jpg') center/cover;
+      opacity: 0.2;
+      z-index: 0;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Floating Contest Header */
+    .contest-floating-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+      z-index: 1000;
+      padding: 10px 0;
+      display: none;
+      transition: all 0.3s ease;
+    }
+    
+    .contest-floating-header.show {
+      display: block;
+    }
+    
+    .contest-items {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .contest-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .contest-item img {
+      height: 30px;
+      width: auto;
+    }
+
+    /* About Section Image */
+    .about-image-container {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .about-image-container img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.5s ease;
+    }
+    
+    .about-image-container:hover img {
+      transform: scale(1.03);
+    }
+    
+    .about-image-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(13, 110, 253, 0.1), rgba(0, 198, 255, 0.1));
+      z-index: 1;
+    }
+
+    /* Card Hover Effect */
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+    
+    .feature-card {
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    .feature-card .card-body {
+      padding: 30px;
+    }
+    
+    .feature-card i {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    /* Timeline */
+    .timeline-section {
+      position: relative;
+      padding: 60px 0;
+      background: #f8f9fa;
+    }
+    
+    .timeline-item {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 50px;
+    }
+    
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #007bff;
+      border: 3px solid white;
+    }
+    
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 25px;
+      width: 1px;
+      height: calc(100% - 15px);
+      background: #dee2e6;
+    }
+    
+    .timeline-item:last-child::after {
+      display: none;
+    }
+    
+    .timeline-date {
+      font-weight: 600;
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+
+    /* Testimonials */
+    .testimonial-card {
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      height: 100%;
+    }
+    
+    .testimonial-card .quote {
+      font-size: 1.2rem;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+    }
+    
+    .testimonial-author img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+      object-fit: cover;
+    }
+
+    /* Footer Styling */
+    footer {
+      background-color: #b8d4ff; /* Same bright blue as navbar */
+      color: #0f0101;
+      padding: 50px 0 20px;
+    }
+    
+    .footer-links h5 {
+      color: #080000;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    
+    .footer-links ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: rgba(13, 0, 0, 0.8);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-links a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+    
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      margin-right: 10px;
+      color: #0a0000;
+      transition: all 0.3s;
+    }
+    
+    .social-icons a:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-3px);
+    }
+
+    /* Prize Section */
+    .prize-card {
+      border-radius: 10px;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s;
+      border: none;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .prize-card-header {
+      background: linear-gradient(45deg, #007bff, #00c6ff);
+      color: white;
+      padding: 20px;
+    }
+    
+    .prize-card-body {
+      padding: 30px;
+    }
+    
+    .prize-amount {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #007bff;
+      margin: 15px 0;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 120px 0 80px;
+      }
+      
+      .contest-floating-header {
+        padding: 5px 0;
+      }
+      
+      .contest-items {
+        gap: 15px;
+      }
+      
+      .contest-item {
+        font-size: 0.8rem;
+      }
+      
+      .contest-item img {
+        height: 20px;
+      }
+      
+      .about-image-container {
+        margin-top: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="https://www.hktechnical.com/">
+        <img src="./logo.png" alt="HKT Logo" height="40">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHKT" aria-controls="navbarHKT" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarHKT">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#prizes">Prizes</a></li>
+          <li class="nav-item"><a class="nav-link" href="#timeline">Timeline</a></li>
+          <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+          <li class="nav-item"><a class="nav-link" href="#register">Register</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Floating Contest Header -->
+  <div class="contest-floating-header" id="floatingHeader">
+    <div class="container">
+      <div class="contest-items">
+        <div class="contest-item">
+          <img src="https://web.hktechnical.com/hktpgims/assets/img/trophy.png" alt="Trophy">
+          <span>Win Exciting Prizes</span>
+        </div>
+        <div class="contest-item">
+          <img src="https://web.hktechnical.com/hktpgims/assets/img/certificate.png" alt="Certificate">
+          <span>Get Certified</span>
+        </div>
+        <div class="contest-item">
+          <img src="https://web.hktechnical.com/hktpgims/assets/img/internship.png" alt="Internship">
+          <span>Internship Opportunities</span>
+        </div>
+        <div class="contest-item">
+          <img src="https://web.hktechnical.com/hktpgims/assets/img/cash-prize.png" alt="Cash Prize">
+          <span>Cash Rewards</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="container hero-content">
+      <h1 class="display-4 fw-bold mb-4">HKT National Contest 2025</h1>
+      <p class="lead fs-4 mb-5">Join the biggest technical challenge of the year and showcase your skills to the world!</p>
+      <a href="#register" class="btn btn-light btn-lg px-4 py-2 me-3">Register Now</a>
+      <a href="#about" class="btn btn-outline-light btn-lg px-4 py-2">Learn More</a>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="py-5 bg-white">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <h2 class="fw-bold mb-4">About the Contest</h2>
+          <p class="lead">The HKT National Contest is a prestigious competition that brings together the brightest minds from across the country to compete in various technical domains.</p>
+          <p>This year's contest features multiple categories including coding challenges, technical quizzes, and innovative project presentations. Participants will have the opportunity to showcase their skills, learn from industry experts, and network with like-minded individuals.</p>
+          <p>Whether you're a beginner looking to gain experience or an advanced participant aiming for the top prizes, this contest offers something for everyone in the technical community.</p>
+        </div>
+        <div class="col-lg-6">
+          <div class="about-image-container">
+            <img src="./contest.png" alt="About Contest" class="img-fluid">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-5">Why Participate?</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card feature-card shadow-sm">
+            <div class="card-body text-center">
+              <i class="fas fa-trophy"></i>
+              <h4 class="mb-3">Recognition</h4>
+              <p>Get recognized by top tech companies and industry leaders for your skills and talent.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card shadow-sm">
+            <div class="card-body text-center">
+              <i class="fas fa-network-wired"></i>
+              <h4 class="mb-3">Networking</h4>
+              <p>Connect with industry professionals, mentors, and fellow tech enthusiasts.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card shadow-sm">
+            <div class="card-body text-center">
+              <i class="fas fa-chart-line"></i>
+              <h4 class="mb-3">Career Growth</h4>
+              <p>Enhance your resume and boost your career prospects with this prestigious competition.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIZES SECTION -->
+  <section id="prizes" class="py-5 bg-white">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-5">Exciting Prizes</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card prize-card h-100">
+            <div class="prize-card-header">
+              <h4>First Prize</h4>
+            </div>
+            <div class="prize-card-body">
+              <div class="prize-amount">₹50,000</div>
+              <p>Cash prize + Trophy</p>
+              <p>6-month paid internship at HKT</p>
+              <p>Certificate of Excellence</p>
+              <p>Mentorship from industry experts</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card prize-card h-100">
+            <div class="prize-card-header">
+              <h4>Second Prize</h4>
+            </div>
+            <div class="prize-card-body">
+              <div class="prize-amount">₹25,000</div>
+              <p>Cash prize + Medal</p>
+              <p>3-month internship at HKT</p>
+              <p>Certificate of Excellence</p>
+              <p>Tech goodies worth ₹5,000</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card prize-card h-100">
+            <div class="prize-card-header">
+              <h4>Third Prize</h4>
+            </div>
+            <div class="prize-card-body">
+              <div class="prize-amount">₹10,000</div>
+              <p>Cash prize + Medal</p>
+              <p>1-month training program</p>
+              <p>Certificate of Excellence</p>
+              <p>Tech goodies worth ₹3,000</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <p class="text-muted">*All participants will receive a certificate of participation</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE SECTION -->
+  <section id="timeline" class="timeline-section">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-5">Contest Timeline</h2>
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="timeline-item">
+            <div class="timeline-date">June 1 - July 15, 2025</div>
+            <h4>Registration Period</h4>
+            <p>Participants can register for the contest through our online portal. Early registrations get access to preparatory materials.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">July 20, 2025</div>
+            <h4>Preliminary Round</h4>
+            <p>Online screening test to shortlist candidates for the main competition. This will test basic technical knowledge.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">August 10, 2025</div>
+            <h4>Main Competition</h4>
+            <p>Selected participants will compete in their chosen categories through practical challenges and presentations.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">August 25, 2025</div>
+            <h4>Results Announcement</h4>
+            <p>Winners will be announced on our website and through email notifications. Prizes will be distributed within 15 days.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SECTION -->
+  <section id="testimonials" class="py-5 bg-white">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-5">What Past Participants Say</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="quote">"The HKT contest was a turning point in my career. The challenges were tough but rewarding, and the exposure I got was incredible."</div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Participant">
+              <div>
+                <h5>Priya Sharma</h5>
+                <p class="text-muted mb-0">2023 Winner, Now at Google</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="quote">"I learned more in preparing for this contest than in a whole semester at college. The networking opportunities were invaluable."</div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Participant">
+              <div>
+                <h5>Rahul Verma</h5>
+                <p class="text-muted mb-0">2024 Finalist</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="quote">"The internship I got through this contest launched my career. The judges were industry leaders who gave fantastic feedback."</div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Participant">
+              <div>
+                <h5>Ananya Patel</h5>
+                <p class="text-muted mb-0">2022 Winner, Now at Microsoft</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGISTRATION SECTION -->
+  <section id="register" class="bg-light py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <h2 class="fw-bold mb-3">Ready to Showcase Your Talent?</h2>
+          <p class="lead mb-4">Register now for the HKT National Contest 2025 and take the first step toward an exciting technical journey.</p>
+          <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-check-circle text-success me-2"></i>
+            <span>Open to all students and professionals</span>
+          </div>
+          <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-check-circle text-success me-2"></i>
+            <span>Multiple categories to choose from</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <i class="fas fa-check-circle text-success me-2"></i>
+            <span>No registration fee</span>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <form class="row g-3 shadow p-4 bg-white rounded">
+            <div class="col-md-6">
+              <label for="fullName" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
+            </div>
+            <div class="col-md-6">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="col-12">
+              <label for="institute" class="form-label">College/Institute Name</label>
+              <input type="text" class="form-control" id="institute" placeholder="Where do you study/work?" required>
+            </div>
+            <div class="col-md-6">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="col-md-6">
+              <label for="category" class="form-label">Contest Category</label>
+              <select class="form-select" id="category" required>
+                <option selected disabled>Select your category</option>
+                <option value="coding">Coding Challenge</option>
+                <option value="quiz">Technical Quiz</option>
+                <option value="project">Project Presentation</option>
+                <option value="design">UI/UX Design</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="terms" required>
+                <label class="form-check-label" for="terms">
+                  I agree to the terms and conditions of the contest
+                </label>
+              </div>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-lg w-100 py-2">Register Now</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-5">Frequently Asked Questions</h2>
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="accordion" id="faqAccordion">
+            <div class="accordion-item mb-3 border-0 shadow-sm">
+              <h3 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Who can participate in the HKT National Contest?
+                </button>
+              </h3>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  The contest is open to all students (college and university) as well as young professionals aged 18-28. There are no restrictions based on academic discipline, though the challenges are technical in nature.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item mb-3 border-0 shadow-sm">
+              <h3 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Is there any registration fee for the contest?
+                </button>
+              </h3>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  No, there is absolutely no registration fee for participating in the HKT National Contest. We believe in providing equal opportunities to all talented individuals regardless of their financial background.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item mb-3 border-0 shadow-sm">
+              <h3 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  What preparation materials are provided?
+                </button>
+              </h3>
+              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  After registration, participants will receive access to preparatory materials including practice problems, sample questions from previous years, and recommended reading lists. We also conduct free webinars in the weeks leading up to the contest.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item mb-3 border-0 shadow-sm">
+              <h3 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                  How are the winners selected?
+                </button>
+              </h3>
+              <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Winners are selected through a rigorous evaluation process by our panel of industry experts. Criteria include technical accuracy, innovation, problem-solving approach, and presentation skills (for project categories). All judging is done anonymously to ensure fairness.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <img src="./logo.png" alt="HKT Logo" height="40" class="mb-3">
+          <p>HKT Technical is a leading platform for technical education and skill development, helping thousands of students build successful careers in technology.</p>
+          <div class="social-icons mt-4">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4">
+          <div class="footer-links">
+            <h5>Quick Links</h5>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="#about">About Contest</a></li>
+              <li><a href="#prizes">Prizes</a></li>
+              <li><a href="#timeline">Timeline</a></li>
+              <li><a href="#register">Register</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4">
+          <div class="footer-links">
+            <h5>Resources</h5>
+            <ul>
+              <li><a href="#">Previous Year Papers</a></li>
+              <li><a href="#">Preparation Guide</a></li>
+              <li><a href="#">Webinars</a></li>
+              <li><a href="#">Mentorship Program</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4">
+          <div class="footer-links">
+            <h5>Contact Us</h5>
+            <ul>
+              <li><i class="fas fa-map-marker-alt me-2"></i> 123 Tech Park, Bangalore, India</li>
+              <li><i class="fas fa-phone me-2"></i> +91 9876543210</li>
+              <li><i class="fas fa-envelope me-2"></i> contest@hktechnical.com</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <hr class="mt-4 bg-light">
+      <div class="text-center pt-3">
+        <p class="mb-0">© 2025 HKT Technical | All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Floating Header Script -->
+  <script>
+    window.addEventListener('scroll', function() {
+      const floatingHeader = document.getElementById('floatingHeader');
+      if (window.scrollY > 300) {
+        floatingHeader.classList.add('show');
+      } else {
+        floatingHeader.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>
