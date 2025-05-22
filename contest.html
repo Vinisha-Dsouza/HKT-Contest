@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HKT National Contest 2025</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* Animated Poster Header */
+      .poster-header {
+        background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+        color: white;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        animation: gradientBG 15s ease infinite;
+        background-size: 400% 400%;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .poster-content {
+        position: relative;
+        z-index: 2;
+        padding: 20px;
+      }
+
+      .poster-title {
+        font-size: 4.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        animation: fadeInDown 1s ease;
+      }
+
+      .poster-subtitle {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        animation: fadeInUp 1s ease 0.3s both;
+      }
+
+      .floating-elements {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .floating-element {
+        position: absolute;
+        animation: float 15s infinite linear;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.3));
+      }
+
+      .medal {
+        background-image: url("https://cdn-icons-png.flaticon.com/512/2583/2583344.png");
+        border-radius: 50%;
+      }
+
+      .dollar-note {
+        background-image: url("./dollar.png");
+        border-radius: 5px;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-1000px) rotate(720deg);
+        }
+      }
+
+      /* Keyframes for animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        .poster-title {
+          font-size: 3rem;
+        }
+
+        .poster-subtitle {
+          font-size: 1.3rem;
+        }
+      }
+
+      /* Content Section Styling */
+      .content-section {
+        padding: 80px 0;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 50px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        width: 50%;
+        height: 4px;
+        bottom: -10px;
+        left: 25%;
+        background: linear-gradient(to right, #1a2a6c, #b21f1f, #fdbb2d);
+        border-radius: 2px;
+      }
+
+      /* Card Hover Effect */
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transition: 0.3s;
+      }
+
+      .feature-card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        height: 100%;
+      }
+
+      .feature-card .card-body {
+        padding: 30px;
+      }
+
+      .feature-card i {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #1a2a6c;
+      }
+
+      /* Prize Section */
+      .prize-card {
+        border-radius: 10px;
+        overflow: hidden;
+        text-align: center;
+        transition: all 0.3s;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .prize-card-header {
+        background: linear-gradient(45deg, #1a2a6c, #b21f1f);
+        color: white;
+        padding: 20px;
+      }
+
+      .prize-card-body {
+        padding: 30px;
+      }
+
+      .prize-amount {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1a2a6c;
+        margin: 15px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ANIMATED POSTER HEADER -->
+    <section class="poster-header">
+      <div class="floating-elements" id="floatingElements"></div>
+
+      <div class="poster-content">
+        <h1 class="poster-title">HKT NATIONAL CONTEST 2025</h1>
+        <p class="poster-subtitle">
+          Showcase Your Skills • Win Exciting Prizes • Get Industry Recognition
+        </p>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="content-section bg-white">
+      <div class="container">
+        <h2 class="text-center section-title">About The Contest</h2>
+        <div class="row align-items-center">
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <p class="lead">
+              The HKT National Contest is a prestigious competition that brings
+              together the brightest minds from across the country to compete in
+              various technical domains.
+            </p>
+            <p>
+              This year's contest features multiple categories including coding
+              challenges, technical quizzes, and innovative project
+              presentations. Participants will have the opportunity to showcase
+              their skills, learn from industry experts, and network with
+              like-minded individuals.
+            </p>
+            <p>
+              Whether you're a beginner looking to gain experience or an
+              advanced participant aiming for the top prizes, this contest
+              offers something for everyone in the technical community.
+            </p>
+          </div>
+          <div class="col-lg-6">
+            <div class="about-image-container">
+              <img
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                alt="About Contest"
+                class="img-fluid rounded shadow"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="content-section bg-light">
+      <div class="container">
+        <h2 class="text-center section-title">Why Participate?</h2>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card feature-card shadow-sm">
+              <div class="card-body text-center">
+                <i class="fas fa-medal"></i>
+                <h4 class="mb-3">Recognition</h4>
+                <p>
+                  Get recognized by top tech companies and industry leaders for
+                  your skills and talent.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card feature-card shadow-sm">
+              <div class="card-body text-center">
+                <i class="fas fa-network-wired"></i>
+                <h4 class="mb-3">Networking</h4>
+                <p>
+                  Connect with industry professionals, mentors, and fellow tech
+                  enthusiasts.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card feature-card shadow-sm">
+              <div class="card-body text-center">
+                <i class="fas fa-money-bill-wave"></i>
+                <h4 class="mb-3">Cash Prizes</h4>
+                <p>
+                  Win exciting cash prizes and other rewards for your
+                  outstanding performance.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIZES SECTION -->
+    <section id="prizes" class="content-section bg-white">
+      <div class="container">
+        <h2 class="text-center section-title">Exciting Prizes</h2>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card prize-card h-100">
+              <div class="prize-card-header">
+                <h4>First Prize</h4>
+              </div>
+              <div class="prize-card-body">
+                <div class="prize-amount">₹50,000</div>
+                <p>Cash prize + Gold Medal</p>
+                <p>6-month paid internship at HKT</p>
+                <p>Certificate of Excellence</p>
+                <p>Mentorship from industry experts</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card prize-card h-100">
+              <div class="prize-card-header">
+                <h4>Second Prize</h4>
+              </div>
+              <div class="prize-card-body">
+                <div class="prize-amount">₹25,000</div>
+                <p>Cash prize + Silver Medal</p>
+                <p>3-month internship at HKT</p>
+                <p>Certificate of Excellence</p>
+                <p>Tech goodies worth ₹5,000</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card prize-card h-100">
+              <div class="prize-card-header">
+                <h4>Third Prize</h4>
+              </div>
+              <div class="prize-card-body">
+                <div class="prize-amount">₹10,000</div>
+                <p>Cash prize + Bronze Medal</p>
+                <p>1-month training program</p>
+                <p>Certificate of Excellence</p>
+                <p>Tech goodies worth ₹3,000</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSTRUCTIONS SECTION -->
+    <section id="instructions" class="content-section bg-light">
+      <div class="container">
+        <h2 class="text-center section-title">How to Participate</h2>
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h4 class="mb-4">Contest Guidelines</h4>
+                <ol class="list-group list-group-numbered">
+                  <li class="list-group-item">
+                    Register on our platform before the deadline (June 30, 2025)
+                  </li>
+                  <li class="list-group-item">
+                    Complete your profile with all required information
+                  </li>
+                  <li class="list-group-item">
+                    Review the contest rules and code of conduct
+                  </li>
+                  <li class="list-group-item">
+                    Prepare for the quiz by studying the recommended topics
+                  </li>
+                </ol>
+
+                <h4 class="mt-5 mb-4">Quiz Instructions</h4>
+                <div class="alert alert-info">
+                  <ul class="mb-0">
+                    <li>The quiz consists of 20 multiple-choice questions</li>
+                    <li>You'll have 30 minutes to complete the quiz</li>
+                    <li>Each question has only one correct answer</li>
+                    <li>Questions will cover various technical domains</li>
+                    <li>
+                      You cannot go back to previous questions once answered
+                    </li>
+                    <li>
+                      The quiz will automatically submit when time expires
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="text-center mt-4">
+                  <a href="quiz.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-play-circle me-2"></i> Start Quiz Now
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <!-- WINNERS SECTION -->
+    <section id="winners" class="content-section bg-white">
+      <div class="container">
+        <h2 class="text-center section-title">Our Winners</h2>
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="text-center mb-5">
+              <p class="lead">Celebrating the brilliant minds who excelled in our previous competitions</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row g-4">
+          <!-- Winner 1 -->
+          <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-body text-center">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" 
+                     class="rounded-circle mb-3" 
+                     alt="Winner" 
+                     width="150"
+                     height="150">
+                <h4>Rahul Sharma</h4>
+                <p class="text-primary fw-bold">1st Prize Winner - 2024</p>
+                <p>"This competition helped me showcase my skills and land my dream job at a top tech company."</p>
+                <div class="mt-3">
+                  <span class="badge bg-warning text-dark">Gold Medalist</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Winner 2 -->
+          <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-body text-center">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" 
+                     class="rounded-circle mb-3" 
+                     alt="Winner" 
+                     width="150"
+                     height="150">
+                <h4>Priya Patel</h4>
+                <p class="text-primary fw-bold">2nd Prize Winner - 2024</p>
+                <p>"The mentorship I received after winning was invaluable for my career growth."</p>
+                <div class="mt-3">
+                  <span class="badge bg-secondary">Silver Medalist</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Winner 3 -->
+          <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-body text-center">
+                <img src="https://randomuser.me/api/portraits/men/75.jpg" 
+                     class="rounded-circle mb-3" 
+                     alt="Winner" 
+                     width="150"
+                     height="150">
+                <h4>Amit Singh</h4>
+                <p class="text-primary fw-bold">3rd Prize Winner - 2024</p>
+                <p>"The competition was tough but fair, and the recognition has opened many doors for me."</p>
+                <div class="mt-3">
+                  <span class="badge bg-danger">Bronze Medalist</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row mt-5">
+          <div class="col-12">
+            <div class="text-center">
+              <h4 class="mb-4">Past Year Winners Gallery</h4>
+              <div class="row g-3">
+                <div class="col-6 col-md-3">
+                  <img src="https://randomuser.me/api/portraits/women/32.jpg" 
+                       class="img-fluid rounded shadow-sm" 
+                       alt="Winner">
+                </div>
+                <div class="col-6 col-md-3">
+                  <img src="https://randomuser.me/api/portraits/men/22.jpg" 
+                       class="img-fluid rounded shadow-sm" 
+                       alt="Winner">
+                </div>
+                <div class="col-6 col-md-3">
+                  <img src="https://randomuser.me/api/portraits/women/65.jpg" 
+                       class="img-fluid rounded shadow-sm" 
+                       alt="Winner">
+                </div>
+                <div class="col-6 col-md-3">
+                  <img src="https://randomuser.me/api/portraits/men/45.jpg" 
+                       class="img-fluid rounded shadow-sm" 
+                       alt="Winner">
+                </div>
+              </div>
+              <a href="#" class="btn btn-outline-primary mt-4">View All Winners</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Floating Elements Animation -->
+    <script>
+      // Create floating elements
+      const floatingContainer = document.getElementById("floatingElements");
+
+      // Medal and dollar note images
+      const elements = [
+        { type: "medal", count: 8, minSize: 40, maxSize: 80 },
+        { type: "dollar-note", count: 10, minSize: 60, maxSize: 100 },
+      ];
+
+      elements.forEach((elementType) => {
+        for (let i = 0; i < elementType.count; i++) {
+          const element = document.createElement("div");
+          element.classList.add("floating-element", elementType.type);
+
+          // Random size between min and max
+          const size =
+            Math.random() * (elementType.maxSize - elementType.minSize) +
+            elementType.minSize;
+          element.style.width = `${size}px`;
+          element.style.height = `${size}px`;
+
+          // Random position
+          element.style.left = `${Math.random() * 100}%`;
+          element.style.top = `${Math.random() * 100 + 100}%`;
+
+          // Random animation duration between 10s and 25s
+          element.style.animationDuration = `${Math.random() * 15 + 10}s`;
+
+          // Random delay
+          element.style.animationDelay = `${Math.random() * 5}s`;
+
+          // Random opacity for some variation
+          element.style.opacity = `${Math.random() * 0.5 + 0.5}`;
+
+          floatingContainer.appendChild(element);
+        }
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
