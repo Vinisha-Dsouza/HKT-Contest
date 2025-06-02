@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HKT National Contest 2025</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Floating Elements - Now in front of content */
+        .global-floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height:100vh;
+            overflow: hidden;
+            z-index: 100; /* Higher z-index to appear above content */
+            pointer-events: none; /* Still don't interfere with clicks */
+        }
+
+        /* Make sure content sections have proper z-index below floating elements */
+        .poster-header,
+        .content-section {
+            position: relative;
+            z-index: 1;
+            background-color: transparent;
+        }
+
+        /* Enhanced floating animation with better visibility */
+        @keyframes float {
+            0% { 
+                transform: translateY(100vh) translateX(calc(var(--random-x) * 100vw)) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1; /* Full opacity when visible */
+            }
+            90% {
+                opacity: 1; /* Maintain full opacity until fading out */
+            }
+            100% { 
+                transform: translateY(-100px) translateX(calc(var(--random-x) * 100vw)) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Floating element styles with enhanced visibility */
+        .floating-element {
+            position: absolute;
+            animation: float 15s infinite linear;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5)); /* Stronger shadow for better visibility */
+            opacity: 0.9; /* More opaque */
+        }
+
+        .medal {
+            background-image: url("https://cdn-icons-png.flaticon.com/512/2583/2583344.png");
+            border-radius: 50%;
+        }
+
+        .dollar-note {
+            background-image: url("dollar.png");
+            border-radius: 5px;
+        }
+
+        /* Animated Header Background */
+        .poster-header {
+            background: linear-gradient(135deg, #ff52e5, #4ca7f7, #6d0246);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            margin-bottom: -10%;
+            padding-bottom: 15%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .poster-content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+        }
+
+        /* Section Styling */
+        .content-section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        /* Diagonal Section Borders */
+        .diagonal-top {
+            clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+            padding-top: 10%;
+            margin-top: -10%;
+        }
+
+        .diagonal-bottom {
+            clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
+            padding-bottom: 10%;
+            margin-bottom: -10%;
+        }
+
+        .zigzag-top {
+            clip-path: polygon(0 15%, 100% 0, 100% 85%, 0 100%);
+            padding-top: 15%;
+            margin-top: -15%;
+        }
+
+        .zigzag-bottom {
+            clip-path: polygon(0 0, 100% 15%, 100% 100%, 0 85%);
+            padding-bottom: 15%;
+            margin-bottom: -15%;
+        }
+
+        .wave-top {
+            clip-path: ellipse(100% 100% at 50% 0%);
+            padding-top: 10%;
+            margin-top: -10%;
+        }
+
+        .wave-bottom {
+            clip-path: ellipse(100% 100% at 50% 100%);
+            padding-bottom: 10%;
+            margin-bottom: -10%;
+        }
+
+        /* About Section Styling */
+        #about {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+            padding: 15% 0;
+            margin: -10% 0;
+        }
+
+        .about-content {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.3s;
+        }
+
+        .about-image-container {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.6s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Features Section Styling */
+        #features {
+            background: linear-gradient(to right, #ffefba, #ffffff);
+            clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+            padding: 12% 0;
+            margin: -8% 0;
+        }
+
+        .feature-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Prizes Section Styling */
+        #prizes {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            clip-path: polygon(0 15%, 100% 0, 100% 85%, 0 100%);
+            padding: 15% 0;
+            margin: -10% 0;
+        }
+
+        .prize-card {
+            border-radius: 15px;
+            overflow: hidden;
+            text-align: center;
+            border: none;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .prize-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .prize-card-header {
+            background: linear-gradient(45deg, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 25px;
+        }
+
+        /* Instructions Section Styling */
+        #instructions {
+            background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+            clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+            padding: 12% 0;
+            margin: -8% 0;
+        }
+
+        #instructions .card {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Winners Section Styling */
+        #winners {
+            background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%);
+            padding: 10% 0 15% 0;
+            margin: -5% 0 0 0;
+        }
+
+        #winners .card {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        #winners .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Typography */
+        .poster-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease;
+        }
+
+        .poster-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -10px;
+            left: 25%;
+            background: linear-gradient(to right, #1a2a6c, #b21f1f, #fdbb2d);
+            border-radius: 2px;
+        }
+
+        /* Prize Amount Styling */
+        .prize-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a2a6c;
+            margin: 15px 0;
+        }
+
+        /* Images */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            z-index: 1000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-minimized {
+            cursor: pointer;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 15px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-window {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            display: none;
+            height: 400px;
+            flex-direction: column;
+        }
+
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+
+        .chatbot-message {
+            margin-bottom: 10px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .chatbot-message.bot {
+            background-color: #e6e6e6;
+            color: #333;
+            border-top-left-radius: 5px;
+            align-self: flex-start;
+        }
+
+        .chatbot-message.user {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            border-top-right-radius: 5px;
+            align-self: flex-end;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            background-color: white;
+            border-top: 1px solid #eee;
+        }
+
+        .chatbot-input-field {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .chatbot-input-field:focus {
+            border-color: #1a2a6c;
+        }
+
+        .chatbot-send-btn {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .chatbot-send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .chatbot-typing {
+            display: flex;
+            padding: 10px 15px;
+            background-color: #e6e6e6;
+            border-radius: 18px;
+            align-self: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .chatbot-typing span {
+            height: 8px;
+            width: 8px;
+            background-color: #666;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+
+        .chatbot-typing span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .chatbot-typing span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .poster-title {
+                font-size: 3rem;
+            }
+            .poster-subtitle {
+                font-size: 1.3rem;
+            }
+            .content-section {
+                padding: 50px 0;
+            }
+            #winners .col-md-4 {
+                margin-bottom: 20px;
+            }
+            #winners img {
+                width: 100px;
+                height: 100px;
+            }
+            .badge {
+                font-size: 0.8rem;
+            }
+            .card {
+                margin-bottom: 15px;
+            }
+            
+            /* Adjust diagonal borders for mobile */
+            .poster-header,
+            #about,
+            #features,
+            #prizes,
+            #instructions,
+            #winners {
+                clip-path: none;
+                margin: 0;
+                padding: 60px 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .poster-title {
+                font-size: 2.2rem;
+            }
+            .poster-subtitle {
+                font-size: 1.1rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .feature-card i {
+                font-size: 2rem;
+            }
+            .prize-amount {
+                font-size: 1.8rem;
+            }
+            .btn-lg {
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+            }
+            .quick-question {
+                font-size: 0.8rem;
+                padding: 0.25rem 0.5rem;
+            }
+            .feature-card .card-body, 
+            .prize-card-body {
+                padding: 20px 15px;
+            }
+            .list-group-item {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.9rem;
+            }
+            .chatbot-container {
+                width: 90%;
+                right: 5%;
+                bottom: 10px;
+            }
+            .chatbot-window {
+                height: 70vh;
+                max-height: 500px;
+            }
+            .chatbot-message {
+                max-width: 90%;
+                font-size: 0.9rem;
+            }
+            .chatbot-input-field {
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Global Floating Elements (now in front of content) -->
+    <div class="global-floating-elements" id="globalFloatingElements"></div>
+    
+    <!-- Header Section with Background -->
+    <section class="poster-header">
+        <div class="poster-content">
+            <h1 class="poster-title">HKT NATIONAL CONTEST 2025</h1>
+            <p class="poster-subtitle">
+                Showcase Your Skills • Win Exciting Prizes • Get Industry Recognition
+            </p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="content-section">
+        <div class="container">
+            <h2 class="text-center section-title">About The Contest</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0 about-content">
+                    <p class="lead">
+                        The HKT National Contest is a prestigious competition that brings
+                        together the brightest minds from across the country to compete in
+                        various technical domains.
+                    </p>
+                    <p>
+                        This year's contest features multiple categories including coding
+                        challenges, technical quizzes, and innovative project
+                        presentations. Participants will have the opportunity to showcase
+                        their skills, learn from industry experts, and network with
+                        like-minded individuals.
+                    </p>
+                    <p>
+                        Whether you're a beginner looking to gain experience or an
+                        advanced participant aiming for the top prizes, this contest
+                        offers something for everyone in the technical community.
+                    </p>
+                </div>
+                <div class="col-lg-6 about-image-container">
+                    <div class="about-image-container">
+                        <img
+                            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                            alt="About Contest"
+                            class="img-fluid rounded shadow"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="content-section">
+        <div class="container">
+            <h2 class="text-center section-title">Why Participate?</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card feature-card shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-medal"></i>
+                            <h4 class="mb-3">Recognition</h4>
+                            <p>
+                                Get recognized by top tech companies and industry leaders for
+                                your skills and talent.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-network-wired"></i>
+                            <h4 class="mb-3">Networking</h4>
+                            <p>
+                                Connect with industry professionals, mentors, and fellow tech
+                                enthusiasts.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <h4 class="mb-3">Cash Prizes</h4>
+                            <p>
+                                Win exciting cash prizes and other rewards for your
+                                outstanding performance.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prizes Section -->
+    <section id="prizes" class="content-section">
+        <div class="container">
+            <h2 class="text-center section-title text-white">Exciting Prizes</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card prize-card h-100">
+                        <div class="prize-card-header">
+                            <h4>First Prize</h4>
+                        </div>
+                        <div class="prize-card-body">
+                            <div class="prize-amount">₹50,000</div>
+                            <p>Cash prize + Gold Medal</p>
+                            <p>6-month paid internship at HKT</p>
+                            <p>Certificate of Excellence</p>
+                            <p>Mentorship from industry experts</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card prize-card h-100">
+                        <div class="prize-card-header">
+                            <h4>Second Prize</h4>
+                        </div>
+                        <div class="prize-card-body">
+                            <div class="prize-amount">₹25,000</div>
+                            <p>Cash prize + Silver Medal</p>
+                            <p>3-month internship at HKT</p>
+                            <p>Certificate of Excellence</p>
+                            <p>Tech goodies worth ₹5,000</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card prize-card h-100">
+                        <div class="prize-card-header">
+                            <h4>Third Prize</h4>
+                        </div>
+                        <div class="prize-card-body">
+                            <div class="prize-amount">₹10,000</div>
+                            <p>Cash prize + Bronze Medal</p>
+                            <p>1-month training program</p>
+                            <p>Certificate of Excellence</p>
+                            <p>Tech goodies worth ₹3,000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructions Section -->
+    <section id="instructions" class="content-section">
+        <div class="container">
+            <h2 class="text-center section-title">How to Participate</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h4 class="mb-4">Contest Guidelines</h4>
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item">
+                                    Register on our platform before the deadline (June 30, 2025)
+                                </li>
+                                <li class="list-group-item">
+                                    Complete your profile with all required information
+                                </li>
+                                <li class="list-group-item">
+                                    Review the contest rules and code of conduct
+                                </li>
+                                <li class="list-group-item">
+                                    Prepare for the quiz by studying the recommended topics
+                                </li>
+                            </ol>
+
+                            <h4 class="mt-5 mb-4">Quiz Instructions</h4>
+                            <div class="alert alert-info">
+                                <ul class="mb-0">
+                                    <li>The quiz consists of 20 multiple-choice questions</li>
+                                    <li>You'll have 30 minutes to complete the quiz</li>
+                                    <li>Each question has only one correct answer</li>
+                                    <li>Questions will cover various technical domains</li>
+                                    <li>
+                                        You cannot go back to previous questions once answered
+                                    </li>
+                                    <li>
+                                        The quiz will automatically submit when time expires
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <a href="quiz.html" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-play-circle me-2"></i> Start Quiz Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Winners Section -->
+    <section id="winners" class="content-section">
+        <div class="container">
+            <h2 class="text-center section-title">Our Winners</h2>
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="text-center mb-5">
+                        <p class="lead">Celebrating the brilliant minds who excelled in our previous competitions</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Winner 1 -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" 
+                                 class="rounded-circle mb-3" 
+                                 alt="Winner" 
+                                 width="150"
+                                 height="150">
+                            <h4>Rahul Sharma</h4>
+                            <p class="text-primary fw-bold">1st Prize Winner - 2024</p>
+                            <p>"This competition helped me showcase my skills and land my dream job at a top tech company."</p>
+                            <div class="mt-3">
+                                <span class="badge bg-warning text-dark">Gold Medalist</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Winner 2 -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" 
+                                 class="rounded-circle mb-3" 
+                                 alt="Winner" 
+                                 width="150"
+                                 height="150">
+                            <h4>Priya Patel</h4>
+                            <p class="text-primary fw-bold">2nd Prize Winner - 2024</p>
+                            <p>"The mentorship I received after winning was invaluable for my career growth."</p>
+                            <div class="mt-3">
+                                <span class="badge bg-secondary">Silver Medalist</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Winner 3 -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <img src="https://randomuser.me/api/portraits/men/75.jpg" 
+                                 class="rounded-circle mb-3" 
+                                 alt="Winner" 
+                                 width="150"
+                                 height="150">
+                            <h4>Amit Singh</h4>
+                            <p class="text-primary fw-bold">3rd Prize Winner - 2024</p>
+                            <p>"The competition was tough but fair, and the recognition has opened many doors for me."</p>
+                            <div class="mt-3">
+                                <span class="badge bg-danger">Bronze Medalist</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="text-center">
+                        <h4 class="mb-4">Past Year Winners Gallery</h4>
+                        <div class="row g-3">
+                            <div class="col-6 col-md-3">
+                                <img src="https://randomuser.me/api/portraits/women/32.jpg" 
+                                     class="img-fluid rounded shadow-sm" 
+                                     alt="Winner">
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <img src="https://randomuser.me/api/portraits/men/22.jpg" 
+                                     class="img-fluid rounded shadow-sm" 
+                                     alt="Winner">
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <img src="https://randomuser.me/api/portraits/women/65.jpg" 
+                                     class="img-fluid rounded shadow-sm" 
+                                     alt="Winner">
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <img src="https://randomuser.me/api/portraits/men/45.jpg" 
+                                     class="img-fluid rounded shadow-sm" 
+                                     alt="Winner">
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-outline-primary mt-4">View All Winners</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Chatbot Section -->
+    <div class="chatbot-container">
+        <div class="chatbot-minimized" id="chatbotMinimized">
+            <span><i class="fas fa-robot me-2"></i> Contest Assistant</span>
+            <i class="fas fa-comment-dots"></i>
+        </div>
+        
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <div>
+                    <i class="fas fa-robot me-2"></i>
+                    <strong>HKT Contest Assistant</strong>
+                </div>
+                <div>
+                    <button id="chatbotCloseBtn" class="btn btn-sm btn-light">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chatbot-message bot">
+                    Hello! I'm your HKT Contest Assistant. How can I help you today?
+                </div>
+                
+                <div class="chatbot-message bot">
+                    You can ask me about:
+                    <div class="mt-2">
+                        <button class="btn btn-sm btn-outline-primary me-2 mb-2 quick-question" data-question="What are the contest dates?">
+                            Contest Dates
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary me-2 mb-2 quick-question" data-question="How do I register?">
+                            Registration
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary me-2 mb-2 quick-question" data-question="What are the prizes?">
+                            Prizes
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chatbot-input">
+                <input 
+                    type="text" 
+                    class="chatbot-input-field" 
+                    id="chatbotInput" 
+                    placeholder="Type your question..."
+                    autocomplete="off"
+                >
+                <button class="chatbot-send-btn" id="chatbotSendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Enhanced floating elements creation with better visibility
+        function createFloatingElements() {
+            const container = document.getElementById("globalFloatingElements");
+            if (!container) return;
+            
+            // Clear any existing elements
+            container.innerHTML = '';
+            
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
+            const medalCount = isMobile ? 20 : 40;
+            const dollarCount = isMobile ? 30 : 50;
+            
+            // Create medal elements with better visibility
+            for (let i = 0; i < medalCount; i++) {
+                createFloatingElement(container, "medal", isMobile ? 30 : 50, isMobile ? 60 : 90);
+            }
+            
+            // Create dollar elements with better visibility
+            for (let i = 0; i < dollarCount; i++) {
+                createFloatingElement(container, "dollar-note", isMobile ? 40 : 70, isMobile ? 80 : 120);
+            }
+        }
+
+        function createFloatingElement(container, type, minSize, maxSize) {
+            const element = document.createElement("div");
+            element.className = `floating-element ${type}`;
+            
+            // Random properties with adjustments for better visibility
+            const size = Math.random() * (maxSize - minSize) + minSize;
+            const randomX = Math.random();
+            const duration = Math.random() * 20 + 10;
+            const delay = Math.random() * 15;
+            const opacity = Math.random() * 0.5 + 0.5; // Higher minimum opacity
+            
+            // Apply styles with enhanced visibility
+            element.style.cssText = `
+                width: ${size}px;
+                height: ${size}px;
+                left: ${randomX * 100}%;
+                top: 100%;
+                --random-x: ${(Math.random() - 0.5) * 0.2};
+                animation-duration: ${duration}s;
+                animation-delay: ${delay}s;
+                opacity: ${opacity};
+                filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.7)); /* Stronger shadow */
+            `;
+            
+            container.appendChild(element);
+        }
+
+        // Chatbot functionality
+        function setupChatbot() {
+            const chatbotMinimized = document.getElementById('chatbotMinimized');
+            const chatbotWindow = document.getElementById('chatbotWindow');
+            const chatbotMessages = document.getElementById('chatbotMessages');
+            const chatbotInput = document.getElementById('chatbotInput');
+            const chatbotSendBtn = document.getElementById('chatbotSendBtn');
+            const chatbotCloseBtn = document.getElementById('chatbotCloseBtn');
+            const quickQuestions = document.querySelectorAll('.quick-question');
+            
+            // Toggle chatbot visibility
+            chatbotMinimized.addEventListener('click', () => {
+                chatbotMinimized.style.display = 'none';
+                chatbotWindow.style.display = 'flex';
+            });
+            
+            chatbotCloseBtn.addEventListener('click', () => {
+                chatbotWindow.style.display = 'none';
+                chatbotMinimized.style.display = 'flex';
+            });
+            
+            // Handle sending messages
+            function sendMessage() {
+                const messageText = chatbotInput.value.trim();
+                if (messageText === '') return;
+                
+                // Add user message to chat
+                addMessage(messageText, 'user');
+                chatbotInput.value = '';
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Simulate bot response after a delay
+                setTimeout(() => {
+                    removeTypingIndicator();
+                    const botResponse = getBotResponse(messageText);
+                    addMessage(botResponse, 'bot');
+                }, 1000 + Math.random() * 2000);
+            }
+            
+            // Send message on button click or Enter key
+            chatbotSendBtn.addEventListener('click', sendMessage);
+            chatbotInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+            
+            // Quick question buttons
+            quickQuestions.forEach(button => {
+                button.addEventListener('click', () => {
+                    const question = button.getAttribute('data-question');
+                    chatbotInput.value = question;
+                    sendMessage();
+                });
+            });
+            
+            // Add a new message to the chat
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('chatbot-message', sender);
+                messageDiv.textContent = text;
+                chatbotMessages.appendChild(messageDiv);
+                scrollToBottom();
+            }
+            
+            // Show typing indicator
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.classList.add('chatbot-typing');
+                typingDiv.id = 'typingIndicator';
+                typingDiv.innerHTML = `
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                `;
+                chatbotMessages.appendChild(typingDiv);
+                scrollToBottom();
+            }
+            
+            // Remove typing indicator
+            function removeTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+            
+            // Scroll to bottom of messages
+            function scrollToBottom() {
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+            
+            // Bot response logic
+            function getBotResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                if (lowerMessage.includes('date') || lowerMessage.includes('when')) {
+                    return "The HKT National Contest 2025 will take place from August 15 to September 30, 2025. Registration is open until July 31, 2025.";
+                }
+                else if (lowerMessage.includes('register') || lowerMessage.includes('sign up')) {
+                    return "You can register by clicking the 'Start Quiz Now' button on our website. You'll need to create an account and complete your profile first.";
+                }
+                else if (lowerMessage.includes('prize') || lowerMessage.includes('win')) {
+                    return "We offer exciting prizes! 1st prize: ₹50,000 + internship, 2nd prize: ₹25,000, and 3rd prize: ₹10,000. There are also certificates and medals for all winners.";
+                }
+                else if (lowerMessage.includes('contact') || lowerMessage.includes('help')) {
+                    return "For additional help, you can email us at support@hktcontest.com or call our helpline at +91 9876543210.";
+                }
+                else {
+                    const defaultResponses = [
+                        "I'm not sure I understand. Could you rephrase your question?",
+                        "I can help with information about contest dates, registration, prizes, and more. What would you like to know?",
+                        "That's an interesting question! For detailed information, please visit our official website or contact our support team.",
+                        "I'm still learning! Try asking about contest details, registration process, or prize information."
+                    ];
+                    return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+                }
+            }
+            
+            // Initialize chatbot with a welcome message after a short delay
+            setTimeout(() => {
+                if (!document.querySelector('.chatbot-message.bot')) {
+                    addMessage("Welcome to HKT National Contest 2025! How can I assist you today?", 'bot');
+                }
+            }, 3000);
+        }
+
+        // Smooth scroll for anchor links
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingElements();
+            setupChatbot();
+            setupSmoothScrolling();
+        });
+    </script>
+</body>
+</html>
